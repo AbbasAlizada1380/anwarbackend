@@ -1,15 +1,14 @@
 // controllers/aboutPage.controller.js
 import { sequelize, AboutPage } from "../models/index.js"; // Named imports
 
-
 // Create a new AboutPage
 export const createAboutPage = async (req, res) => {
   try {
-    const { text, small_image, large_image, resume } = req.body;
+    const { text, smallImage, largeImage, resume } = req.body;
     const newPage = await AboutPage.create({
       text,
-      small_image,
-      large_image,
+      smallImage,
+      largeImage,
       resume,
     });
     res.status(201).json(newPage);

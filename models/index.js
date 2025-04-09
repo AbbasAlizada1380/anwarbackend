@@ -1,37 +1,13 @@
 import { Sequelize } from "sequelize";
 import dbConfig from "../config/db.config.js";
 
-// Initialize sequelize
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
   pool: dbConfig.pool,
 });
 
-// Import models after sequelize is initialized
-import { DataTypes } from "sequelize";
-
-// Define models
-const AboutPage = sequelize.define("AboutPage", {
-  text: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-  smallImage: {
-    type: DataTypes.STRING, // Assuming it's a URL or file path
-    allowNull: true,
-  },
-  largeImage: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  resume: {
-    type: DataTypes.STRING, // Assuming it's a URL or file path to the PDF
-    allowNull: true,
-  },
-});
-
-// Test the connection
+// Authenticate DB
 try {
   await sequelize.authenticate();
   console.log("✅ Database connected");
@@ -39,5 +15,16 @@ try {
   console.error("❌ Unable to connect to the database:", error);
 }
 
-// Export sequelize and models
-export { sequelize, AboutPage };
+// Import models
+import AboutPageModel from "./AboutPage.js";
+import ProjectModel from "./Projects.js";
+import MessageModel from "./Messages.js";
+
+// Define models
+const AboutPage = AboutPageModel(sequelize);
+const Project = ProjectModel(sequelize);
+const Message = MessageModel(sequelize);
+
+await sequelize.sync(); // Or force: true if needed
+
+export { sequelize, AboutPage, Project, Message };

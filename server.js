@@ -1,7 +1,8 @@
 import express from "express";
 import {sequelize} from "./models/index.js";
 import AboutPageRouter from "./routes/AboutPageRouter.js";
-
+import projectRouter from "./routes/ProjectRouter.js";
+import MessageRouter from "./routes/MessageRouter.js"
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -11,6 +12,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/AboutPage", AboutPageRouter);
+app.use("/Project", projectRouter);
+app.use("/Message", MessageRouter);
 
 app.listen(PORT, async () => {
   console.log(`Server running on port ${PORT}`);
